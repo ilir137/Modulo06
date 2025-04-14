@@ -1,5 +1,4 @@
 import {
-    imgBack, 
     imgAsCopas, 
     img2copas, 
     img3copas, 
