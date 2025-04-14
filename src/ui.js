@@ -1,15 +1,5 @@
 import {
-    imgBack, 
-    imgAsCopas, 
-    img2copas, 
-    img3copas, 
-    img4copas, 
-    img5copas, 
-    img6copas, 
-    img7copas, 
-    imgSotacopas, 
-    imgCabcopas, 
-    imgReycopas,
+    imgBack,
     puntaje,
     setPuntaje,
     intentos,
@@ -20,7 +10,7 @@ import {
     divCartas,
 } from "./modelo.js"
 
-import { mostrarCarta, mensajeMePlanto } from "./motor.js";
+import { mostrarCarta, obtenerNumRandom, obtenerNumCarta, obtenerUrlCarta, obtenerPuntosCarta, sumarPuntos, mensajeMePlanto } from "./motor.js";
 
 export function inicializar(){
     setPuntaje(0);
@@ -30,7 +20,6 @@ export function inicializar(){
 }
 
 function muestraPunt(punt){
-    setPuntaje(punt);
     spanPuntos.innerText = punt;
 }
 
@@ -39,53 +28,44 @@ function muestraIntentos(inten){
     spanIntentos.innerText = inten;
 }
 
-export function dameCarta(){
-    let numCarta = Math.floor(Math.random() * 10) + 1;
-    //console.log(numCarta);
-    switch(numCarta){
-        case 1:
-            mostrarCarta(imgAsCopas, 1);
-            break;
-        case 2:
-            mostrarCarta(img2copas, 2);
-            break;
-        case 3:
-            mostrarCarta(img3copas, 3);
-            break;
-        case 4:
-            mostrarCarta(img4copas, 4);
-            break;
-        case 5:
-            mostrarCarta(img5copas, 5);
-            break;
-        case 6:
-            mostrarCarta(img6copas, 6);
-            break;
-        case 7:
-            mostrarCarta(img7copas, 7);
-            break;
-        case 8:
-            mostrarCarta(imgSotacopas, 0.5);
-            break;
-        case 9:
-            mostrarCarta(imgCabcopas, 0.5);
-            break;
-        case 10:
-            mostrarCarta(imgReycopas, 0.5);
-            break;
-        /*default:
-            console.log(imgCarta.src)*/
-    }
+function mostrarUrlCarta(url){
+    imgCarta.src = url;
+    divCartas.innerHTML += `<img src="${url}" alt="Imagen No Encontrada">`;
     setTimeout(() => {
         imgCarta.src = imgBack;
     }, 700);  // 700 milisegundos = 0.7 segundos
-    muestraPunt(puntaje);
+}
+
+function revisarPartida(){
     if (puntaje > 7.5){
         alert(`Game Over, tu puntaje es de ${puntaje}...`);
         setIntentos(parseInt(intentos) + 1);
         inicializar();
+    } else if (puntaje === 7.5){
+        partidaGanada();
     }
-    //console.log(puntaje);
+}
+
+function partidaGanada(){
+    if (intentos === 0){setIntentos(parseInt(intentos) + 1);}
+    if (intentos === 1){
+        alert(`¡Lo has clavado! ¡Enhorabuena! Has necesitado de ${intentos} intento para ganar la partida.`);
+    } else {
+        alert(`¡Lo has clavado! ¡Enhorabuena! Has necesitado de ${intentos} intentos para ganar la partida.`);
+    }
+    intentos = 0;
+}
+
+export function dameCarta(){
+    //console.log(numCarta);
+    //obtenerUrlCarta(obtenerNumCarta(obtenerNumRandom()));
+    const carta = obtenerNumCarta(obtenerNumRandom());
+    const urlCarta = obtenerUrlCarta(carta);
+    mostrarUrlCarta(urlCarta);
+    const punto = obtenerPuntosCarta(carta);
+    sumarPuntos(punto);
+    muestraPunt(puntaje);
+    revisarPartida();
 }
 
 export function mePlanto(){
