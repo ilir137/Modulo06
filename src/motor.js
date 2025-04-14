@@ -1,4 +1,15 @@
 import {
+    imgBack, 
+    imgAsCopas, 
+    img2copas, 
+    img3copas, 
+    img4copas, 
+    img5copas, 
+    img6copas, 
+    img7copas, 
+    imgSotacopas, 
+    imgCabcopas, 
+    imgReycopas,
     puntaje,
     setPuntaje,
     intentos,
@@ -11,6 +22,55 @@ export function mostrarCarta(img, num){
     imgCarta.src = img;
     setPuntaje(parseFloat(puntaje) + parseFloat(num));
     divCartas.innerHTML += `<img src="${img}" alt="Imagen No Encontrada">`;
+}
+
+export function obtenerNumRandom(){
+    return Math.floor(Math.random() * 10) + 1;
+}
+
+export function obtenerNumCarta(numRandom){
+    if (numRandom > 7) {
+        return numRandom + 2;
+    }
+
+    return numRandom;
+}
+
+export function obtenerUrlCarta(numCarta){
+    switch(numCarta){
+        case 1:
+            return imgAsCopas;
+        case 2:
+            return img2copas;
+        case 3:
+            return img3copas;
+        case 4:
+            return img4copas;
+        case 5:
+            return img5copas;
+        case 6:
+            return img6copas;
+        case 7:
+            return img7copas;
+        case 10:
+            return imgSotacopas;
+        case 11:
+            return imgCabcopas;
+        case 12:
+            return imgReycopas;
+    }
+}
+
+export function obtenerPuntosCarta(carta){
+    if (carta > 7) {
+        return 0.5;
+    }
+
+    return carta;
+}
+
+export function sumarPuntos(num){
+    setPuntaje(parseFloat(puntaje) + num);
 }
 
 export function mensajeMePlanto(){
